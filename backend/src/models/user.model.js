@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
     {
         userId: { type: String, required: true, unique: true },
         fullName: { type: String, required: true, unique: false },
-        email: { type: String, required: false, unique: true },
+        email: { type: String, required: false },
         password: { type: String, required: true, minlength: 6 },
         profilePic: { type: String, default: "" },
     },
@@ -12,7 +12,18 @@ const userSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
+userSchema.index(
+    { email: 1 },
+    {
+        unique: true,
+        partialFilterExpression: {
+            email: { $type: "string", $exists: true, $ne: null, $ne: "" },
+        },
+    }
+);
 
 const User = mongoose.model("User", userSchema);
+
+// Create a partial unique index for email only when email exists
 
 export default User;
