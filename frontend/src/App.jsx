@@ -50,12 +50,7 @@ function App() {
                         authUser ? <ProfilePage /> : <Navigate to="/login" />
                     }
                 />
-                <Route
-                    path="/settings"
-                    element={
-                        authUser ? <SettingsPage /> : <Navigate to="/login" />
-                    }
-                />
+                <Route path="/settings" element={<SettingsPage />} />
             </Routes>
         </div>
     );
