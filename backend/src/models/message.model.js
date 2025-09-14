@@ -3,13 +3,11 @@ import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema(
     {
         senderId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            type: String,
             required: true,
         },
         recipientId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            type: String,
             required: true,
         },
         status: {
@@ -17,7 +15,7 @@ const messageSchema = new mongoose.Schema(
             enum: ["sent", "delivered", "read"],
             default: "sent",
         },
-        text: { type: String, required: true },
+        text: { type: String },
         image: { type: String },
     },
     { timestamps: true }

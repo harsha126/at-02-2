@@ -1,0 +1,20 @@
+{
+  "name": "at02-2",
+  "version": "1.0.0",
+  "description": "Newer Version of at02",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harsha126/at02-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harsha126/at02-2/issues"
+  },
+  "homepage": "https://github.com/harsha126/at02-2#readme"
+}

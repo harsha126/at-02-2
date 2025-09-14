@@ -6,14 +6,13 @@ import detailRouter from "./routes/detail.route.js";
 import messageRoute from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 
-const app = express();
-
 const port = process.env.PORT || 5001;
 app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true })); 
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
 app.use(
     cors({
@@ -22,7 +21,7 @@ app.use(
     })
 );
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
     connectDB();
 });

@@ -12,6 +12,7 @@ import {
 import { useAuthStore } from "../store/store.useAuthStore";
 import AuthImagePattern from "../Components/AuthImagePattern";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +22,10 @@ const LoginPage = () => {
         formState: { errors },
     } = useForm();
     const { login, isLoggingIn } = useAuthStore();
+
+      for (const [_, value] of Object.entries(errors)) {
+          toast.error(`${value.message}`);
+      }
 
     const onSubmit = async (data) => {
         login(data);

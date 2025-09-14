@@ -1,6 +1,7 @@
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 import cloundinary from "../lib/cloudinary.js";
+import { getSocketIdByUserId, io } from "../lib/socket.js";
 
 export const getUsers = async (req, res) => {
     try {
@@ -30,7 +31,8 @@ export const getMessages = async (req, res) => {
                 { senderId: userId, recipientId: id },
                 { recipientId: userId, senderId: id },
             ],
-        }).sort({ createdAt: -1 });
+        }).sort({ createdAt: 1 });
+
         res.status(200).json(messages);
     } catch (error) {
         console.error("Error fetching messages:", error);
@@ -59,7 +61,13 @@ export const sendMessage = async (req, res) => {
             text,
             image: imageUrl ? imageUrl.secure_url : null,
         });
+        console.log(newMessage);
         await newMessage.save();
+
+        const recId = getSocketIdByUserId(recipientId);
+        if (recId) {
+            io.to(recId).emit("newMessage", newMessage);
+        }
         res.status(201).json(newMessage);
     } catch (error) {
         console.error("Error sending message:", error);

@@ -87,7 +87,6 @@ export const logout = (req, res) => {
 
 export const checkAuth = async (req, res) => {
     try {
-        console.log("User from token:", req.user);
         res.status(200).json(req.user);
     } catch (error) {
         console.error("Error in checkAuth:", error);

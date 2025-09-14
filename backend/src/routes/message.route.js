@@ -8,7 +8,7 @@ import {
 
 const messageRoute = Router();
 
-messageRoute.post("/send/:id", sendMessage);
+messageRoute.post("/send/:id", authenticateToken, sendMessage);
 messageRoute.get("/users", authenticateToken, getUsers);
 messageRoute.get("/:id", authenticateToken, getMessages);
 
