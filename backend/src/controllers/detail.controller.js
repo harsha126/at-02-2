@@ -18,7 +18,19 @@ export const saveDetails = async (req, res) => {
 
     console.log(details);
 
-    const existingDetails = await User.findOne({ userId: details.userId });
+    const userId = req.user.userId;
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const existingDetails = await User.findOne({ userId });
+    if (details.profilePic) {
+        const uploadResult = await cloudinary.uploader.upload(details.profilePic, {
+            folder: "profile_pics",
+            transformation: [{ width: 500, height: 500, crop: "fill" }],
+        });
+        details.profilePic = uploadResult.secure_url;
+    }
     if (existingDetails) {
         console.log("updating existing details");
         existingDetails = { ...existingDetails, ...details };
@@ -28,6 +40,8 @@ export const saveDetails = async (req, res) => {
         const newDetails = new User(details);
         await newDetails.save();
     }
+
+    
 
     return res.status(201).json({ message: "Detail created successfully" });
 };
