@@ -9,9 +9,11 @@ import { useAuthStore } from "./store/store.useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from "./store/store.useThemeStore";
 
 function App() {
     const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+    const { theme } = useThemeStore();
 
     useEffect(() => {
         checkAuth();
@@ -25,11 +27,10 @@ function App() {
         );
     }
 
-    console.log("Auth User in App.jsx:", authUser);
     return (
-        <div>
+        <div data-theme={theme} className="min-h-screen">
             <Navbar />
-            <Toaster/>
+            <Toaster />
             <Routes>
                 <Route
                     path="/"

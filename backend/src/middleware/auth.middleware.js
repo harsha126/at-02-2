@@ -9,15 +9,18 @@ export const authenticateToken = async (req, res, next) => {
 
         jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
             if (err) return res.status(403).send({ message: "Invalid token" });
-            req.user = {
-                userId: user.userId,
-                fullName: user.fullName,
-            };
 
-            const dbUser = await User.find({ userId: user.userId });
+            const dbUser = await User.findOne({ userId: user.userId });
             if (!dbUser)
                 return res.status(404).send({ message: "User not found" });
 
+            req.user = {
+                userId: user.userId,
+                fullName: user.fullName,
+                profilePic: dbUser.profilePic,
+                createdAt: dbUser.createdAt,
+                updatedAt: dbUser.updatedAt,
+            };
             next();
         });
     } catch (error) {
