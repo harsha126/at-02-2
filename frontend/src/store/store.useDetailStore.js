@@ -25,10 +25,15 @@ export const useDetailStore = create((set) => ({
             const res = await axiosInstance.get("/details");
             set({ details: res.data });
         } catch (error) {
+            if (error.response?.data?.message === "User details not found") {
+                set({ details: null });
+                toast.error("Please fill the details form");
+                return;
+            }
             toast.error(
-                error.response?.data?.message || "Error fetching details"
+                error.response?.data?.message === "Details Not Found" ||
+                    "Error fetching details"
             );
-
             console.error("Error fetching details:", error);
         }
     },
