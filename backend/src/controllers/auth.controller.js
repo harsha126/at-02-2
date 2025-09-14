@@ -116,3 +116,17 @@ export const updateProfile = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getLandingPageImages = async (req, res) => {
+    try {
+        const { resources } = await cloudinary.search
+            .expression("folder:reunion1")
+            .sort_by("created_at", "desc")
+            .execute();
+        const imageUrls = resources.map((img) => img.secure_url);
+        res.status(200).json(imageUrls);
+    } catch (error) {
+        console.error("Error fetching landing page images:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};

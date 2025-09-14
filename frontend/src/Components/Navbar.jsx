@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LogOut, MessageSquare, Settings, User } from "lucide-react";
+import { BookImage, Info, LogOut, Settings, User, Users } from "lucide-react";
 import { useAuthStore } from "../store/store.useAuthStore";
 
 const Navbar = () => {
@@ -17,8 +17,8 @@ const Navbar = () => {
                             to="/"
                             className="flex items-center gap-2.5 hover:opacity-80 transition-all"
                         >
-                            <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                                <MessageSquare className="w-5 h-5 text-primary" />
+                            <div className="size-9 flex items-center justify-center">
+                                <img src="/logo.PNG" />
                             </div>
                             <h1 className="text-lg font-bold">AT 02</h1>
                         </Link>
@@ -27,17 +27,39 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         <Link
                             to={"/settings"}
-                            className={`
-              btn btn-sm gap-2 transition-colors
-              
-              `}
+                            className={`btn btn-sm gap-2 transition-colors`}
                         >
                             <Settings className="w-4 h-4" />
                             <span className="hidden sm:inline">Settings</span>
                         </Link>
+                        <Link
+                            to={"/about"}
+                            className={`btn btn-sm gap-2 transition-colors`}
+                        >
+                            <Info className="w-4 h-4" />
+                            <span className="hidden sm:inline">About</span>
+                        </Link>
 
                         {authUser && (
                             <>
+                                <Link
+                                    to={"/gallery"}
+                                    className={`btn btn-sm gap-2`}
+                                >
+                                    <BookImage className="size-5" />
+                                    <span className="hidden sm:inline">
+                                        Gallery
+                                    </span>
+                                </Link>
+                                <Link
+                                    to={"/users"}
+                                    className={`btn btn-sm gap-2`}
+                                >
+                                    <Users className="size-5" />
+                                    <span className="hidden sm:inline">
+                                        Users
+                                    </span>
+                                </Link>
                                 <Link
                                     to={"/profile"}
                                     className={`btn btn-sm gap-2`}

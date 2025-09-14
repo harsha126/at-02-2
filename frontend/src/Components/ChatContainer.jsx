@@ -63,7 +63,7 @@ const ChatContainer = () => {
                         }`}
                         ref={messageEndRef}
                     >
-                        <div className=" chat-image avatar">
+                        <div className="chat-image avatar">
                             <div className="size-10 rounded-full border">
                                 <img
                                     src={

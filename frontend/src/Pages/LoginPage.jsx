@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    Eye,
-    EyeOff,
-    Fingerprint,
-    Loader2,
-    Lock,
-    Mail,
-    MessageSquare,
-} from "lucide-react";
+import { Eye, EyeOff, Fingerprint, Loader2, Lock, Plane } from "lucide-react";
 import { useAuthStore } from "../store/store.useAuthStore";
 import AuthImagePattern from "../Components/AuthImagePattern";
 import { useForm } from "react-hook-form";
@@ -23,9 +15,9 @@ const LoginPage = () => {
     } = useForm();
     const { login, isLoggingIn } = useAuthStore();
 
-      for (const [_, value] of Object.entries(errors)) {
-          toast.error(`${value.message}`);
-      }
+    for (const [_, value] of Object.entries(errors)) {
+        toast.error(`${value.message}`);
+    }
 
     const onSubmit = async (data) => {
         login(data);
@@ -40,10 +32,10 @@ const LoginPage = () => {
                     <div className="text-center mb-8">
                         <div className="flex flex-col items-center gap-2 group">
                             <div
-                                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20
+                                className="w-18 h-18 rounded-xl flex items-center justify-center group-hover:bg-primary/20
               transition-colors"
                             >
-                                <MessageSquare className="w-6 h-6 text-primary" />
+                                <img src="/logo.PNG" />
                             </div>
                             <h1 className="text-2xl font-bold mt-2">
                                 Welcome Back

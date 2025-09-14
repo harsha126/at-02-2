@@ -15,6 +15,8 @@ export const useAuthStore = create((set, get) => ({
     isLoggingOut: false,
     onlineUsers: [],
     socket: null,
+    landingPageImages: [],
+    isLandingPageImagesLoading: false,
 
     setUser: (user) => set({ authUser: user }),
 
@@ -128,4 +130,20 @@ export const useAuthStore = create((set, get) => ({
     },
 
     setSocket: (socket) => set({ socket }),
+
+    getLandingPageImages: async () => {
+        set({ isLandingPageImagesLoading: true });
+        try {
+            const res = await axiosInstance.get("/auth/images");
+            set({ landingPageImages: res.data });
+        } catch (error) {
+            toast.error(
+                "Error fetching landing page images" +
+                    error.response?.data?.message || "Error fetching images"
+            );
+            console.error("Error fetching landing page images:", error);
+        } finally {
+            set({ isLandingPageImagesLoading: false });
+        }
+    },
 }));

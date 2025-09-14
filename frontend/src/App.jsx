@@ -10,6 +10,9 @@ import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/store.useThemeStore";
+import AllUsersPage from "./Pages/AllUsersPage";
+import GalleryPage from "./Pages/GalleryPage";
+import AboutPage from "./Pages/AboutPage";
 
 function App() {
     const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -40,6 +43,7 @@ function App() {
                     path="/signup"
                     element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
                 />
+                <Route path="/about" element={<AboutPage />} />
                 <Route
                     path="/login"
                     element={!authUser ? <LoginPage /> : <Navigate to="/" />}
@@ -48,6 +52,18 @@ function App() {
                     path="/profile"
                     element={
                         authUser ? <ProfilePage /> : <Navigate to="/login" />
+                    }
+                />
+                <Route
+                    path="/users"
+                    element={
+                        authUser ? <AllUsersPage /> : <Navigate to="/login" />
+                    }
+                />
+                <Route
+                    path="/gallery"
+                    element={
+                        authUser ? <GalleryPage /> : <Navigate to="/login" />
                     }
                 />
                 <Route path="/settings" element={<SettingsPage />} />
