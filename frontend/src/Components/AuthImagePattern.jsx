@@ -33,7 +33,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
         <div
             className={` ${
                 authUser ? "" : "hidden "
-            }lg:flex items-center justify-center bg-base-200 p-12`}
+            }lg:flex items-center justify-center bg-base-400 p-12`}
         >
             <div
                 className="mt-[10vh] h-[80vh] text-center overflow-y-auto"
@@ -57,6 +57,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
                                             key={imgIndex}
                                             src={image}
                                             alt={`Landing Page ${imgIndex}`}
+                                            className="max-w-full h-auto object-contain"
                                         />
                                     </div>
                                 ) : (

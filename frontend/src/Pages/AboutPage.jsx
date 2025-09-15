@@ -2,10 +2,10 @@ import React from "react";
 
 const AboutPage = () => {
     return (
-        <div className="min-h-screen bg-base-300 flex flex-col items-center px-4">
+        <div className="min-h-screen bg-base-400 flex flex-col items-center px-4">
             {/* Hero Section */}
-            <div className="text-center w-[80vw] mt-20">
-                <h1 className="text-4xl font-bold text-primary mb-4">
+            <div className="w-[80vw] mt-20 text-justify">
+                <h1 className="text-4xl font-bold text-primary mb-4 text-center">
                     About
                 </h1>
                 <p className="text-base-content opacity-80 mb-8">
