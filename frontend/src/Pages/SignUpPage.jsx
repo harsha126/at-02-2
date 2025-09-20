@@ -74,15 +74,15 @@ const SignUpPage = () => {
                                     {...register("userId", {
                                         required: "Service Number is required",
                                         pattern: {
-                                            value: /^6\d{7}$/,
+                                            value: /^688/,
                                             message:
-                                                "Service Number must start with 6 and be 8 digits long",
+                                                "Service Number must start with 688",
                                         },
                                     })}
                                     className={`input input-bordered w-full pl-10 ${
                                         errors.userId ? "border-red-500" : ""
                                     } focus:ring-0 focus:border-transparent`}
-                                    placeholder="6XXXXXXX"
+                                    placeholder="688XXXXX"
                                 />
                             </div>
                         </div>

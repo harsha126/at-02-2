@@ -41,6 +41,7 @@ export const signup = async (req, res) => {
             message: "User created successfully",
             profilePic: newUser.profilePic,
             oldPic: newUser.oldPic,
+            createdAt: newUser.createdAt,
         });
     } catch (error) {
         console.error("Error in signup:", error);
@@ -71,6 +72,7 @@ export const login = async (req, res) => {
             message: "Login successful",
             profilePic: user.profilePic,
             oldPic: user.oldPic,
+            createdAt: user.createdAt,
         });
     } catch (error) {
         console.error("Error in login:", error);

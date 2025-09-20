@@ -2,15 +2,20 @@ import React, { useEffect } from "react";
 import { useChatStore } from "../store/store.useChatStore";
 import { useAuthStore } from "../store/store.useAuthStore";
 import { useNavigate } from "react-router-dom";
+import AllUsersPageSkeleton from "../Components/Skeletons/AllUsersSkeleton";
 
 const AllUsersPage = () => {
-    const { getUsers, users, setSelectedUser } = useChatStore();
+    const { getUsers, users, setSelectedUser, isUsersLoading } = useChatStore();
     const { authUser } = useAuthStore();
     const navigate = useNavigate();
 
     useEffect(() => {
-        getUsers();
-    }, [getUsers]);
+        if (users.length <= 0) getUsers();
+    }, [getUsers, users.length]);
+
+    if (isUsersLoading) {
+        return <AllUsersPageSkeleton />;
+    }
 
     return (
         <div className="min-h-screen pt-20 bg-base-400 w-screen">

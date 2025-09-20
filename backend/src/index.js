@@ -34,7 +34,7 @@ server.listen(port, () => {
 app.use("/api/auth", authRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/details", detailRouter);
-app.use("/api/link", linkRouter);
+app.use("/api/links", linkRouter);
 
 
 if (process.env.NODE_ENV === "production") {

@@ -11,7 +11,7 @@ export const useAuthStore = create((set, get) => ({
     isSigningUp: false,
     isUpdatingProfile: {
         oldPic: false,
-        profilePic: false
+        profilePic: false,
     },
     isCheckingAuth: true,
     isLoggingIn: false,
@@ -20,6 +20,8 @@ export const useAuthStore = create((set, get) => ({
     socket: null,
     landingPageImages: [],
     isLandingPageImagesLoading: false,
+    allLinks: [],
+    isLinksLoading: false,
 
     setUser: (user) => set({ authUser: user }),
 
@@ -147,6 +149,22 @@ export const useAuthStore = create((set, get) => ({
             console.error("Error fetching landing page images:", error);
         } finally {
             set({ isLandingPageImagesLoading: false });
+        }
+    },
+
+    getAllLinks: async () => {
+        set({ isLinksLoading: true });
+        try {
+            const res = await axiosInstance.get("/links");
+            set({ allLinks: res.data });
+        } catch (error) {
+            toast.error(
+                "Error fetching links" + error.response?.data?.message ||
+                    "Error fetching links"
+            );
+            console.error("Error fetching links:", error);
+        } finally {
+            set({ isLinksLoading: false });
         }
     },
 }));

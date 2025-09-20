@@ -11,6 +11,11 @@ const linkSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    location: {
+        type: String,
+        required: true,
+        trim: true,
+    },
 });
 
 const Link = mongoose.model("Link", linkSchema);

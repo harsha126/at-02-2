@@ -11,14 +11,17 @@ const AuthImagePattern = ({ title, subtitle }) => {
         landingPageImages,
         isLandingPageImagesLoading,
         authUser,
+        getAllLinks,
+        allLinks,
     } = useAuthStore();
-
-    // landingpageimages = []
-    // divide them in to chucks of 5
 
     useEffect(() => {
         if (landingPageImages.length == 0) getLandingPageImages();
     }, [getLandingPageImages, landingPageImages.length]);
+
+    useEffect(() => {
+        if (allLinks.length == 0 && authUser) getAllLinks();
+    }, [getAllLinks, allLinks.length, authUser]);
 
     const chunkedImages = [];
     for (let i = 0; i < landingPageImages.length; i += 5) {
@@ -70,6 +73,17 @@ const AuthImagePattern = ({ title, subtitle }) => {
                                                         toast.error(
                                                             "Please login to view more images"
                                                         );
+                                                    } else {
+                                                        allLinks.length > 0
+                                                            ? window.open(
+                                                                  allLinks[
+                                                                      index
+                                                                  ].link,
+                                                                  "_blank"
+                                                              )
+                                                            : toast.error(
+                                                                  "No links available"
+                                                              );
                                                     }
                                                 }}
                                             >
