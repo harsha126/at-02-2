@@ -9,7 +9,10 @@ const SERVER_URL =
 export const useAuthStore = create((set, get) => ({
     authUser: null,
     isSigningUp: false,
-    isUpdatingProfile: false,
+    isUpdatingProfile: {
+        oldPic: false,
+        profilePic: false
+    },
     isCheckingAuth: true,
     isLoggingIn: false,
     isLoggingOut: false,
@@ -80,8 +83,8 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    updateProfile: async (profileData) => {
-        set({ isUpdatingProfile: true });
+    updateProfile: async (profileData, isOldPic) => {
+        set({ isUpdatingProfile: { oldPic: isOldPic, profilePic: !isOldPic } });
         try {
             const res = await axiosInstance.put(
                 "/auth/update-profile",
@@ -91,11 +94,11 @@ export const useAuthStore = create((set, get) => ({
             toast.success("Profile updated successfully!");
         } catch (error) {
             toast.error(
-                error.response?.data?.message || "Error updating profile"
+                error.response?.data?.message || "Error while updating Picture"
             );
-            console.error("Error updating profile:", error);
+            console.error("Error updating Picture:", error);
         } finally {
-            set({ isUpdatingProfile: false });
+            set({ isUpdatingProfile: { oldPic: false, profilePic: false } });
         }
     },
 

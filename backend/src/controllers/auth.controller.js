@@ -40,6 +40,7 @@ export const signup = async (req, res) => {
             userId: newUser.userId,
             message: "User created successfully",
             profilePic: newUser.profilePic,
+            oldPic: newUser.oldPic,
         });
     } catch (error) {
         console.error("Error in signup:", error);
@@ -69,6 +70,7 @@ export const login = async (req, res) => {
             userId: user.userId,
             message: "Login successful",
             profilePic: user.profilePic,
+            oldPic: user.oldPic,
         });
     } catch (error) {
         console.error("Error in login:", error);
@@ -96,19 +98,34 @@ export const checkAuth = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try {
-        const { profilePic } = req.body;
+        const { profilePic, oldPic } = req.body;
         const userId = req.user.userId;
 
-        if (!profilePic) {
-            return res.status(400).json({ message: "Profile pic is required" });
+        if (!profilePic && !oldPic) {
+            return res.status(400).json({ message: "A Image is required" });
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePic);
-        const updatedUser = await User.findOneAndUpdate(
-            { userId },
-            { profilePic: uploadResponse.secure_url },
-            { new: true }
-        ).select("-password -__v -_id");
+        let profilePicUrl = "";
+        let oldPicUrl = "";
+        let updatedUser = null;
+        if (profilePic) {
+            const uploadResponse = await cloudinary.uploader.upload(profilePic);
+            profilePicUrl = uploadResponse.secure_url;
+            updatedUser = await User.findOneAndUpdate(
+                { userId },
+                { profilePic: profilePicUrl },
+                { new: true }
+            ).select("-password -__v -_id");
+        }
+        if (oldPic) {
+            const uploadResponse = await cloudinary.uploader.upload(oldPic);
+            oldPicUrl = uploadResponse.secure_url;
+            updatedUser = await User.findOneAndUpdate(
+                { userId },
+                { oldPic: oldPicUrl },
+                { new: true }
+            ).select("-password -__v -_id");
+        }
 
         res.status(200).json(updatedUser);
     } catch (error) {

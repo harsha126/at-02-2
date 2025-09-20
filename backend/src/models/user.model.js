@@ -7,18 +7,10 @@ const userSchema = new mongoose.Schema(
         email: { type: String, required: false },
         password: { type: String, required: true, minlength: 6 },
         profilePic: { type: String, default: "" },
+        oldPic: { type: String, default: "" },
     },
     {
         timestamps: true,
-    }
-);
-userSchema.index(
-    { email: 1 },
-    {
-        unique: true,
-        partialFilterExpression: {
-            email: { $type: "string", $exists: true, $ne: null, $ne: "" },
-        },
     }
 );
 

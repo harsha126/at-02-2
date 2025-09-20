@@ -24,7 +24,10 @@ function App() {
 
     if (isCheckingAuth && !authUser) {
         return (
-            <div className="flex items-center justify-center h-screen">
+            <div
+                data-theme={theme}
+                className="flex items-center justify-center h-screen"
+            >
                 <Loader className="animate-spin size-10" />
             </div>
         );

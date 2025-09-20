@@ -25,10 +25,13 @@ const formatDate = (isoString) => {
 
 const ProfilePage = () => {
     const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-    console.log(authUser)
+    console.log(authUser);
     const { details, isSavingDetails, saveDetails, getDetails } =
         useDetailStore();
-    const [selectedImg, setSelectedImg] = useState(null);
+    const [selectedImg, setSelectedImg] = useState({
+        oldPic: null,
+        profilePic: null,
+    });
     const [isEditing, setIsEditing] = useState(false);
 
     const {
@@ -78,7 +81,7 @@ const ProfilePage = () => {
         }
     }, [details, reset]);
 
-    const handleImageUpload = async (e) => {
+    const handleImageUpload = async (e, isOldPic) => {
         const file = e.target.files[0];
         if (!file) return;
 
@@ -86,10 +89,13 @@ const ProfilePage = () => {
         reader.readAsDataURL(file);
 
         reader.onload = async () => {
-            const base64Image = reader.result;
-            setSelectedImg(base64Image);
-            await updateProfile({ profilePic: base64Image });
-
+            if (isOldPic) {
+                setSelectedImg((prev) => ({ ...prev, oldPic: reader.result }));
+                await updateProfile({ oldPic: reader.result }, isOldPic);
+                return;
+            }
+            setSelectedImg((prev) => ({ ...prev, profilePic: reader.result }));
+            await updateProfile({ profilePic: reader.result }, isOldPic);
         };
     };
 
@@ -113,48 +119,93 @@ const ProfilePage = () => {
                         <p className="mt-2">Your profile information</p>
                     </div>
 
-                    {/* avatar upload section */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="relative">
-                            <img
-                                src={
-                                    selectedImg ||
-                                    authUser.profilePic ||
-                                    "/avatar.png"
-                                }
-                                alt="Profile"
-                                className="size-32 rounded-full object-cover border-4 "
-                            />
-                            <label
-                                htmlFor="avatar-upload"
-                                className={`
-                  absolute bottom-0 right-0 
-                  bg-base-content hover:scale-105
-                  p-2 rounded-full cursor-pointer 
-                  transition-all duration-200
-                  ${
-                      isUpdatingProfile
-                          ? "animate-pulse pointer-events-none"
-                          : ""
-                  }
-                `}
-                            >
-                                <Camera className="w-5 h-5 text-base-200" />
-                                <input
-                                    type="file"
-                                    id="avatar-upload"
-                                    className="hidden"
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                    disabled={isUpdatingProfile}
+                    <div className="flex flex-col sm:flex-row gap-4 ">
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="relative">
+                                <img
+                                    src={
+                                        selectedImg.oldPic ||
+                                        authUser.oldPic ||
+                                        "/avatar.png"
+                                    }
+                                    alt="Profile"
+                                    className="size-32 rounded-full object-cover border-4 "
                                 />
-                            </label>
+                                <label
+                                    htmlFor="avatar-upload"
+                                    className={`
+                                    absolute bottom-0 right-0 
+                                    bg-base-content hover:scale-105
+                                    p-2 rounded-full cursor-pointer 
+                                    transition-all duration-200
+                                    ${
+                                        isUpdatingProfile.oldPic
+                                            ? "animate-pulse pointer-events-none"
+                                            : ""
+                                    }`}
+                                >
+                                    <Camera className="w-5 h-5 text-base-200" />
+                                    <input
+                                        type="file"
+                                        id="avatar-upload"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={(event) =>
+                                            handleImageUpload(event, true)
+                                        }
+                                        disabled={isUpdatingProfile.oldPic}
+                                    />
+                                </label>
+                            </div>
+                            <p className="text-sm text-zinc-400 text-center">
+                                {isUpdatingProfile.oldPic
+                                    ? "Uploading..."
+                                    : "Click the camera icon to update your Old photo"}
+                            </p>
                         </div>
-                        <p className="text-sm text-zinc-400">
-                            {isUpdatingProfile
-                                ? "Uploading..."
-                                : "Click the camera icon to update your photo"}
-                        </p>
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="relative">
+                                <img
+                                    src={
+                                        selectedImg.profilePic ||
+                                        authUser.profilePic ||
+                                        "/avatar.png"
+                                    }
+                                    alt="Profile"
+                                    className="size-32 rounded-full object-cover border-4 "
+                                />
+                                <label
+                                    htmlFor="avatar-upload-profile"
+                                    className={`
+                                    absolute bottom-0 right-0 
+                                    bg-base-content hover:scale-105
+                                    p-2 rounded-full cursor-pointer 
+                                    transition-all duration-200
+                                    ${
+                                        isUpdatingProfile.profilePic
+                                            ? "animate-pulse pointer-events-none"
+                                            : ""
+                                    }`}
+                                >
+                                    <Camera className="w-5 h-5 text-base-200" />
+                                    <input
+                                        type="file"
+                                        id="avatar-upload-profile"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={(event) =>
+                                            handleImageUpload(event, false)
+                                        }
+                                        disabled={isUpdatingProfile.profilePic}
+                                    />
+                                </label>
+                            </div>
+                            <p className="text-sm text-zinc-400 text-center">
+                                {isUpdatingProfile.profilePic
+                                    ? "Uploading..."
+                                    : "Click the camera icon to update your new photo"}
+                            </p>
+                        </div>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
