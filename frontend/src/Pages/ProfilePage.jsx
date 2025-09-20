@@ -25,7 +25,6 @@ const formatDate = (isoString) => {
 
 const ProfilePage = () => {
     const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-    console.log(authUser);
     const { details, isSavingDetails, saveDetails, getDetails } =
         useDetailStore();
     const [selectedImg, setSelectedImg] = useState({

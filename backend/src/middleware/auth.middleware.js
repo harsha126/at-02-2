@@ -18,6 +18,7 @@ export const authenticateToken = async (req, res, next) => {
                 userId: user.userId,
                 fullName: user.fullName,
                 profilePic: dbUser.profilePic,
+                oldPic: dbUser.oldPic,
                 createdAt: dbUser.createdAt,
                 updatedAt: dbUser.updatedAt,
             };

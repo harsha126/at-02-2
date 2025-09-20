@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { app, server } from "./lib/socket.js";
 import path from "path";
+import linkRouter from "./routes/link.route.js";
 
 dotenv.config();
 
@@ -33,6 +34,8 @@ server.listen(port, () => {
 app.use("/api/auth", authRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/details", detailRouter);
+app.use("/api/link", linkRouter);
+
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
