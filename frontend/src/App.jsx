@@ -20,6 +20,12 @@ function App() {
 
     useEffect(() => {
         checkAuth();
+        const rootStyles = getComputedStyle(document.documentElement);
+        const themeColor = rootStyles.getPropertyValue("--bg-base-100").trim();
+        const themeMetaTag = document.querySelector('meta[name="theme-color"]');
+        if (themeMetaTag) {
+            themeMetaTag.setAttribute("content", themeColor || "#ffffff");
+        }
     }, [checkAuth]);
 
     if (isCheckingAuth && !authUser) {
